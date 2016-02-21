@@ -1,0 +1,62 @@
+class program {
+	void turnRight(){
+    	turnleft();
+        turnleft();
+        turnleft();
+    }
+
+	void buscaMontana(){
+    	turnRight();
+        while(frontIsClear()){
+        	move();
+        }
+        turnleft();
+    }
+
+    void regresa(){
+    	turnleft();
+        turnleft();
+        while(frontIsClear()){
+        	move();
+        }
+        turnleft();
+        while(frontIsClear()){
+        	move();
+        }
+    }
+    
+    void cuenta(){
+    	if (facingNorth()){
+        	if(rightIsBlocked()){
+        		pickbeeper();
+        		move();
+        	}
+        	else if(rightIsClear()){
+                turnRight();
+                move();
+        	}
+        }
+        else if (facingEast()){
+        	if (frontIsBlocked()){
+            	turnleft();
+            }
+            else if (rightIsBlocked()){
+                move();
+            }
+            else{
+            	regresa();
+                while(anyBeepersInBeeperBag()){
+                	putbeeper();
+                }
+                turnoff();
+            }
+        }
+        cuenta();
+    }
+    
+    program () {
+    	buscaMontana();
+        cuenta();
+        turnoff();
+    }
+}

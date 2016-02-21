@@ -1,0 +1,90 @@
+class program {
+    void girar(n) {
+        iterate(n)
+            turnleft();
+    }
+    
+    void volverAlInicio() {
+        while (notFacingWest)
+            turnleft();
+        while (frontIsClear)
+            move();
+        turnleft();
+        while (frontIsClear)
+            move();
+        girar(2);
+    }
+
+    void buscarCuadro() {
+        while (notNextToABeeper && facingNorth) {
+            while (notNextToABeeper &&
+                   frontIsClear) move();
+            if (notNextToABeeper) {
+                girar(3);
+                if (frontIsClear) {
+                    move();
+                    girar(3);
+                    while (frontIsClear)
+                        move();
+                    girar(2);
+                }
+            }
+        }
+    }
+    
+    void maximo(n) {
+        if (nextToABeeper) {
+            if (!iszero(n)) {
+                pickbeeper();
+                maximo(pred(n));
+                putbeeper();
+            }
+        } else {
+            iterate(n)
+                putbeeper();
+        }
+    }
+    
+    void medirLado(n) {
+        if (nextToABeeper) {
+            pickbeeper();
+            if (frontIsClear) move();
+            medirLado(succ(n));
+        } else {
+            volverAlInicio();
+            maximo(n);
+        }
+    }
+    
+    void alCuadrado(n) {
+        if (nextToABeeper) {
+            pickbeeper();
+            alCuadrado(succ(n));
+        } else {
+            iterate(n)
+                iterate(n)
+                    putbeeper();
+        }
+    }
+
+    program () {
+        while (facingNorth) {
+            buscarCuadro();
+            if (nextToABeeper) {
+                medirLado(0);
+                if (frontIsClear) {
+                    move();
+                } else {
+                    girar(3);
+                    if (frontIsClear) {
+                        move();
+                        turnleft();
+                    }
+                }
+            }
+        }
+        volverAlInicio();
+        alCuadrado(0);
+        turnoff();
+    }
+}

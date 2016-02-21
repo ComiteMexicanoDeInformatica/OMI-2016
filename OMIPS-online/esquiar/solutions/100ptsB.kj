@@ -1,0 +1,48 @@
+class program {
+    void turnright() {
+        iterate(3)
+            turnleft();
+    }
+
+    void derecha() {
+        while (notNextToABeeper) {
+            putbeeper();
+            putbeeper();
+            if (frontIsBlocked)
+                turnoff();
+            move();
+            turnleft();
+            putbeeper();
+            putbeeper();
+            if (frontIsBlocked)
+                turnoff();
+            move();
+            turnright();
+        }
+        pickbeeper();
+        izquierda();
+    }
+    
+    void izquierda() {
+        while (notNextToABeeper) {
+            putbeeper();
+            putbeeper();
+            if (frontIsBlocked)
+                turnoff();
+            move();
+            turnright();
+            putbeeper();
+            putbeeper();
+            if (frontIsBlocked)
+                turnoff();
+            move();
+            turnleft();
+        }
+        pickbeeper();
+        derecha();
+    }
+
+    program () {
+        derecha();
+    }
+}
