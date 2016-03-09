@@ -1,0 +1,226 @@
+class program {
+
+    define volteaNorte(){
+       while(notFacingNorth){
+        turnleft();
+       }
+    }
+
+    define volteaSur(){
+       while(notFacingSouth){
+        turnleft();
+       }
+    }
+
+    define volteaEste(){
+       while(notFacingEast){
+        turnleft();
+       }
+    }
+    define volteaOeste(){
+       while(notFacingWest){
+        turnleft();
+       }
+    }
+
+    define mueveHastaPared(){
+        while(frontIsClear){
+            move();
+        }
+    }
+
+    define mueve_n(n){
+         iterate(n){
+             move();
+         }
+    }
+
+    define mueveNorte_n(n){
+         volteaNorte();
+         mueve_n(n);
+    }
+    define mueveSur_n(n){
+         volteaSur();
+         mueve_n(n);
+    }
+    define mueveEste_n(n){
+         volteaEste();
+         mueve_n(n);
+    }
+    define mueveOeste_n(n){
+         volteaOeste();
+         mueve_n(n);
+    }
+
+    define mueveCasillaYLlena_1(n){
+        mueveNorte_n(n);
+        mueveNorte_n(n);
+        llenaCuadrado(n);
+        mueveSur_n(n);
+        mueveSur_n(n);
+    }
+    define mueveCasillaYLlena_2(n){
+        mueveNorte_n(n);
+        mueveNorte_n(n);
+        mueveEste_n(n);
+        llenaCuadrado(n);
+        mueveOeste_n(n);
+        mueveSur_n(n);
+        mueveSur_n(n);
+    }
+    define mueveCasillaYLlena_3(n){
+        mueveNorte_n(n);
+        mueveNorte_n(n);
+        mueveEste_n(n);
+        mueveEste_n(n);
+        llenaCuadrado(n);
+        mueveOeste_n(n);
+        mueveOeste_n(n);
+        mueveSur_n(n);
+        mueveSur_n(n);
+    }
+    define mueveCasillaYLlena_4(n){
+        mueveNorte_n(n);
+        llenaCuadrado(n);
+        mueveSur_n(n);
+    }
+    define mueveCasillaYLlena_5(n){
+        mueveNorte_n(n);
+        mueveEste_n(n);
+        llenaCuadradoCentral(n);
+        mueveOeste_n(n);
+        mueveSur_n(n);
+    }
+    define mueveCasillaYLlena_6(n){
+        mueveNorte_n(n);
+        mueveEste_n(n);
+        mueveEste_n(n);
+        llenaCuadrado(n);
+        mueveOeste_n(n);
+        mueveOeste_n(n);
+        mueveSur_n(n);
+    }
+    define mueveCasillaYLlena_7(n){
+        llenaCuadrado(n);
+    }
+    define mueveCasillaYLlena_8(n){
+        mueveEste_n(n);
+        llenaCuadrado(n);
+        mueveOeste_n(n);
+    }
+    define mueveCasillaYLlena_9(n){
+        mueveEste_n(n);
+        mueveEste_n(n);
+        llenaCuadrado(n);
+        mueveOeste_n(n);
+        mueveOeste_n(n);
+    }
+
+
+	define llena3(){
+    	volteaNorte();
+        move();
+        volteaEste();
+        move();
+        putbeeper();
+        volteaOeste();
+        move();
+        volteaSur();
+        move();
+        volteaNorte();
+    }
+
+    define reparte(n){
+    	
+        if(  iszero(pred(n)) ){
+        	llena3();
+        }else{
+    
+          mueveCasillaYLlena_1(n);
+          mueveCasillaYLlena_2(n);
+          mueveCasillaYLlena_3(n);
+          mueveCasillaYLlena_4(n);
+          mueveCasillaYLlena_5(n);
+          mueveCasillaYLlena_6(n);
+          mueveCasillaYLlena_7(n);
+          mueveCasillaYLlena_8(n);
+          mueveCasillaYLlena_9(n);
+        }
+
+    }
+
+    define cuentaYReparte(n){
+        if(nextToABeeper){
+            pickbeeper();
+            cuentaYReparte(succ(n));
+        }else{
+          reparte(n);
+        }
+    }
+    
+    define divideEntreTresYReparte(n){
+    	if(  !iszero( pred(n) ) &&  !iszero( pred(pred(n)) ) )
+        {
+            if( !iszero(n) ){
+                 putbeeper();
+                 divideEntreTresYReparte(pred(pred(pred(n))));
+            }else{
+                cuentaYReparte(0);
+            }
+         }else{
+         	while(nextToABeeper){
+            	pickbeeper();
+            }
+         }
+    }
+
+    define llenaCuadradoCentral(n){
+            iterate(n){
+                volteaEste();
+                iterate(n){
+                    putbeeper();
+                    move();
+                }
+                volteaOeste();
+                iterate(n){
+                    move();
+                }
+                volteaNorte();
+                move();
+            }
+           volteaSur();
+           iterate(n){
+               move();
+           }
+    }
+
+    define llenaCuadrado(n){
+        if( !iszero(pred(n)) && !iszero(pred(pred(n))) && !iszero(n) ){
+            divideEntreTresYReparte(n);
+        }
+    }
+
+    define mueveEsquinaAbajoDerechaYLlenaPatron(){
+        volteaSur();
+        mueveHastaPared();
+        volteaEste();
+        mueveHastaPared();
+        cuentaInicial(1);
+    }
+
+    define cuentaInicial(n){
+        volteaOeste();
+        if(frontIsClear){
+            move();
+            cuentaInicial(succ(n));
+        }else{
+            llenaCuadrado(n);
+        }
+    }
+
+
+    program () {
+        mueveEsquinaAbajoDerechaYLlenaPatron();
+        turnoff();
+    }
+}

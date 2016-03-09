@@ -1,0 +1,110 @@
+iniciar-programa
+
+    define-prototipo-instruccion sierpinskarel(medida);
+
+    define-nueva-instruccion media-vuelta como repetir 2 veces gira-izquierda;
+    define-nueva-instruccion gira-derecha como repetir 3 veces gira-izquierda;
+
+    define-nueva-instruccion haz-cuadro(lado) como inicio
+        repetir lado veces inicio
+            repetir lado veces inicio
+                deja-zumbador;
+                avanza;
+            fin;
+            gira-izquierda;
+            avanza;
+            gira-izquierda;
+            repetir lado veces avanza;
+            media-vuelta;
+        fin;
+        gira-derecha;
+        repetir lado veces avanza;
+        gira-izquierda;
+    fin;
+
+    define-nueva-instruccion coge-y-sierpinskarel(tam) como inicio
+        si junto-a-zumbador entonces inicio
+            coge-zumbador;
+            coge-y-sierpinskarel(sucede(tam));
+        fin
+        sino inicio
+            sierpinskarel(tam);
+        fin;
+    fin;
+
+    define-nueva-instruccion divide-y-sierpinskarel(largo) como inicio
+        si si-es-cero(largo) entonces inicio
+            coge-y-sierpinskarel(0);
+        fin
+        sino inicio
+            si si-es-cero(precede(largo)) o si-es-cero(precede(precede(largo))) entonces inicio
+                mientras junto-a-zumbador hacer coge-zumbador;
+            fin
+            sino inicio
+                deja-zumbador;
+                divide-y-sierpinskarel(precede(precede(precede(largo))));
+            fin;
+        fin;
+    fin;
+
+    define-nueva-instruccion sierpinskarel(medida) como inicio
+        repetir 2 veces inicio
+            divide-y-sierpinskarel(medida);
+            repetir medida veces avanza;
+        fin;
+        divide-y-sierpinskarel(medida);
+
+        gira-izquierda;
+        repetir medida veces avanza;
+        gira-izquierda;
+        repetir 2 veces repetir medida veces avanza;
+        media-vuelta;
+
+        divide-y-sierpinskarel(medida);
+        repetir medida veces avanza;
+        haz-cuadro(medida);
+        repetir medida veces avanza;
+        divide-y-sierpinskarel(medida);
+
+        gira-izquierda;
+        repetir medida veces avanza;
+        gira-izquierda;
+        repetir 2 veces repetir medida veces avanza;
+        media-vuelta;
+
+        repetir 2 veces inicio
+            divide-y-sierpinskarel(medida);
+            repetir medida veces si frente-libre entonces avanza;
+        fin;
+        divide-y-sierpinskarel(medida);
+
+        media-vuelta;
+        repetir 2 veces repetir medida veces avanza;
+        gira-izquierda;
+        repetir 2 veces repetir medida veces avanza;
+        gira-izquierda;
+
+    fin;
+
+    define-nueva-instruccion mide-lado(n) como inicio
+        si frente-libre entonces inicio
+            repetir 3 veces avanza;
+            mide-lado(sucede(n));
+        fin
+        sino inicio
+            media-vuelta;
+            mientras frente-libre hacer avanza;
+            media-vuelta;
+            sierpinskarel(n);
+        fin;
+    fin;
+
+    inicia-ejecucion
+        mientras no-orientado-al-este hacer inicio
+            gira-izquierda;
+        fin;
+        repetir 2 veces avanza;
+        mide-lado(1);
+        apagate;
+    termina-ejecucion
+finalizar-programa

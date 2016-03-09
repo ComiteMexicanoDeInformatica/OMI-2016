@@ -1,0 +1,59 @@
+iniciar-programa
+    define-nueva-instruccion media-vuelta como repetir 2 veces gira-izquierda;
+    define-nueva-instruccion gira-derecha como repetir 3 veces gira-izquierda;
+    define-nueva-instruccion norte como mientras no-orientado-al-norte hacer gira-izquierda;
+    define-nueva-instruccion este como mientras no-orientado-al-este hacer gira-izquierda;
+
+    define-nueva-instruccion escribe-diferencia como inicio
+        avanza;
+        norte;
+        mientras junto-a-zumbador hacer inicio
+            coge-zumbador;
+            avanza;
+            si izquierda-libre entonces inicio
+                gira-izquierda;
+                avanza;
+                deja-zumbador;
+                media-vuelta;
+                avanza;
+                gira-derecha;
+            fin
+            sino inicio 
+                gira-derecha;
+                avanza;
+                deja-zumbador;
+                media-vuelta;
+                avanza;
+                gira-izquierda;
+            fin;
+            avanza;
+            media-vuelta;
+        fin;
+        apagate;
+    fin;
+
+    define-nueva-instruccion quita-uno como inicio
+        coge-zumbador;
+        avanza;
+        coge-zumbador;
+        media-vuelta;
+    fin;
+
+    define-nueva-instruccion checa-ceros como inicio
+        si no-junto-a-zumbador entonces escribe-diferencia;
+        avanza;
+        media-vuelta;
+        si no-junto-a-zumbador entonces escribe-diferencia;
+    fin;
+
+    inicia-ejecucion
+        este;
+        checa-ceros;
+        mientras junto-a-zumbador hacer inicio
+            quita-uno;
+            checa-ceros;
+        fin;
+        checa-ceros;
+        apagate;
+    termina-ejecucion
+finalizar-programa

@@ -1,0 +1,200 @@
+iniciar-programa
+    define-prototipo-instruccion busca-maximo(m);
+
+    define-nueva-instruccion media-vuelta como repetir 2 veces gira-izquierda;
+    define-nueva-instruccion gira-derecha como repetir 3 veces gira-izquierda;
+    define-nueva-instruccion oeste como mientras no-orientado-al-oeste hacer gira-izquierda;
+    define-nueva-instruccion este como mientras no-orientado-al-este hacer gira-izquierda;
+    define-nueva-instruccion norte como mientras no-orientado-al-norte hacer gira-izquierda;
+    define-nueva-instruccion sur como mientras no-orientado-al-sur hacer gira-izquierda;
+    define-nueva-instruccion avanza-hasta-pared como mientras frente-libre hacer avanza;
+    define-nueva-instruccion recoge-todo como mientras junto-a-zumbador hacer coge-zumbador;
+
+    define-nueva-instruccion izquierda como inicio
+        oeste;
+        avanza-hasta-pared;
+        media-vuelta;
+    fin;
+
+    define-nueva-instruccion recoge-y-deja(n) como inicio
+        si junto-a-zumbador entonces inicio
+            coge-zumbador;
+            recoge-y-deja(sucede(n));
+        fin
+        sino inicio
+            repetir n veces deja-zumbador;
+            avanza;
+            repetir sucede(n) veces deja-zumbador;
+        fin;
+    fin;
+
+    define-nueva-instruccion deja-minimo(min) como inicio
+        si no si-es-cero(min) entonces inicio
+            si junto-a-zumbador entonces inicio
+                coge-zumbador;
+                deja-minimo(precede(min));
+                si orientado-al-este entonces deja-zumbador;
+            fin
+            sino inicio
+                deja-minimo(precede(min));
+            fin;
+        fin
+        sino inicio
+            si junto-a-zumbador entonces inicio
+                recoge-todo;
+                sur;
+            fin;
+        fin;
+    fin;
+
+    define-nueva-instruccion deja-maximo(max) como inicio
+        si no si-es-cero(max) entonces inicio
+            si junto-a-zumbador entonces inicio
+                coge-zumbador;
+                deja-maximo(precede(max));
+                si orientado-al-este entonces deja-zumbador;
+            fin
+            sino inicio
+                deja-maximo(precede(max));
+                sur;
+            fin;
+        fin;
+    fin;
+
+    define-nueva-instruccion recoge-y-deja-minimo(c) como inicio
+        si junto-a-zumbador entonces inicio
+            coge-zumbador;
+            recoge-y-deja-minimo(sucede(c));
+        fin
+        sino inicio
+            repetir c veces deja-zumbador;
+            si orientado-al-sur entonces inicio
+                media-vuelta;
+                avanza;
+                este;
+            fin
+            sino inicio
+                 norte;
+                 avanza;
+                 este;
+                 avanza;
+            fin;
+            deja-minimo(sucede(c));
+            si orientado-al-sur entonces inicio
+                repetir sucede(c) veces deja-zumbador;
+                este;
+            fin;
+        fin;
+    fin;
+
+    define-nueva-instruccion llena-posicion como inicio
+        media-vuelta;
+        si frente-libre entonces inicio
+            avanza;
+            media-vuelta;
+            recoge-y-deja(0);
+
+            media-vuelta;
+            avanza;
+            si izquierda-libre entonces inicio
+                sur;
+                avanza;
+                este;
+                recoge-y-deja-minimo(0);
+
+                si derecha-libre entonces inicio
+                    gira-derecha;
+                    avanza;
+                    recoge-y-deja-minimo(0);
+                fin
+                sino inicio
+                    recoge-todo;
+                    deja-zumbador;
+                fin;
+            fin
+            sino inicio
+                media-vuelta;
+                avanza;
+                recoge-todo;
+                deja-zumbador;
+            fin;
+
+        fin
+        sino inicio
+            deja-zumbador;
+            media-vuelta;
+        fin;
+    fin;
+
+    define-nueva-instruccion llena-renglon como inicio
+        izquierda;
+        llena-posicion;
+
+        mientras frente-libre hacer inicio
+            avanza;
+            llena-posicion;
+        fin;
+    fin;
+
+    define-nueva-instruccion sube-renglon como inicio
+        izquierda;
+        mientras izquierda-bloqueada y frente-libre hacer avanza;
+        si izquierda-libre entonces inicio
+            gira-izquierda;
+            avanza;
+        fin
+        sino sur;
+    fin;
+
+    define-nueva-instruccion baja-renglon como inicio
+        izquierda;
+        mientras derecha-bloqueada y frente-libre hacer avanza;
+        si derecha-libre entonces inicio
+            gira-derecha;
+            avanza;
+        fin
+        sino norte;
+    fin;
+
+    define-nueva-instruccion nuevo-maximo(nm) como inicio
+        si junto-a-zumbador entonces inicio
+            coge-zumbador;
+            nuevo-maximo(sucede(nm));
+        fin
+        sino inicio
+            busca-maximo(nm);
+        fin;
+    fin;
+
+    define-nueva-instruccion busca-maximo(m) como inicio
+        mientras no-orientado-al-norte hacer inicio
+            si orientado-al-sur entonces izquierda;
+            deja-maximo(m);
+            si orientado-al-sur entonces inicio
+                este;
+                si frente-libre entonces avanza
+                sino baja-renglon;
+                busca-maximo(m);
+            fin
+            sino inicio
+                nuevo-maximo(0);
+            fin;
+        fin;
+
+        izquierda;
+        recoge-todo;
+        repetir m veces deja-zumbador;
+        apagate;
+    fin;
+
+    inicia-ejecucion
+        mientras no-orientado-al-sur hacer inicio
+            llena-renglon;
+            sube-renglon;
+        fin;
+
+        busca-maximo(0);
+
+        apagate;
+    termina-ejecucion
+finalizar-programa

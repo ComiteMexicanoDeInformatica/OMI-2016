@@ -1,0 +1,110 @@
+iniciar-programa
+    define-prototipo-instruccion evalua-posicion(energia);
+
+    define-nueva-instruccion media-vuelta como repetir 2 veces gira-izquierda;
+    define-nueva-instruccion norte como mientras no-orientado-al-norte hacer gira-izquierda;
+    define-nueva-instruccion sur como mientras no-orientado-al-sur hacer gira-izquierda;
+    define-nueva-instruccion este como mientras no-orientado-al-este hacer gira-izquierda;
+    define-nueva-instruccion oeste como mientras no-orientado-al-oeste hacer gira-izquierda;
+    define-nueva-instruccion whilemove como mientras frente-libre hacer avanza;
+    define-nueva-instruccion whilepick como mientras junto-a-zumbador hacer coge-zumbador;
+
+    define-nueva-instruccion compara(n) como inicio
+        si no si-es-cero(n) entonces inicio
+            si junto-a-zumbador entonces inicio
+                coge-zumbador;
+                compara(precede(n));
+                si no-orientado-al-norte entonces deja-zumbador;
+            fin
+            sino inicio
+                norte;
+            fin;
+        fin
+        sino inicio
+            si no-junto-a-zumbador entonces norte
+            sino media-vuelta;
+        fin;
+    fin;
+
+    define-nueva-instruccion checa-maximo(max) como inicio
+        si frente-libre y no-junto-a-zumbador entonces inicio
+            avanza;
+            checa-maximo(max);
+            si orientado-al-norte entonces inicio
+                este;
+                avanza;
+                norte;
+            fin
+            sino avanza;
+        fin
+        sino inicio
+            si junto-a-zumbador entonces inicio
+                compara(max);
+            fin
+            sino inicio
+                media-vuelta;
+            fin;
+        fin;
+    fin;
+    
+    define-nueva-instruccion turnoff como inicio
+        si junto-a-zumbador entonces inicio
+            coge-zumbador;
+            turnoff;
+            deja-zumbador;
+        fin
+        sino inicio
+            oeste;
+            whilemove;
+            whilepick;
+        fin;
+    fin;
+
+    define-nueva-instruccion siguiente-posicion(poder) como inicio
+        si frente-libre entonces inicio
+            avanza;
+            evalua-posicion(precede(poder));
+        fin
+        sino inicio
+            media-vuelta;
+            mientras no-junto-a-zumbador hacer avanza;
+            turnoff;
+        fin;
+    fin;
+
+    define-nueva-instruccion evalua-posicion(energia) como inicio
+        si junto-a-zumbador entonces inicio
+            norte;
+            coge-zumbador;
+            evalua-posicion(sucede(energia));
+        fin
+        sino inicio
+            si si-es-cero(energia) entonces turnoff
+            sino inicio
+                si orientado-al-norte entonces inicio
+                    oeste;
+                    si frente-libre entonces inicio
+                        checa-maximo(energia);
+                        si orientado-al-norte entonces repetir energia veces deja-zumbador;
+                        este;
+                    fin
+                    sino inicio
+                        este;
+                        repetir energia veces deja-zumbador;
+                    fin;
+
+                    siguiente-posicion(energia);
+                fin
+                sino inicio
+                    siguiente-posicion(energia);
+                fin;
+            fin;
+        fin;
+    fin;
+
+    inicia-ejecucion
+        este;
+        evalua-posicion(0);
+        apagate;
+    termina-ejecucion
+finalizar-programa

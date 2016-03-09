@@ -1,0 +1,151 @@
+iniciar-programa
+    define-prototipo-instruccion recorre(n);
+
+    define-nueva-instruccion gira(n) como inicio
+        repetir n veces gira-izquierda;
+    fin;
+    define-nueva-instruccion izqav como inicio
+        gira-izquierda;
+        avanza;
+    fin;
+    
+    define-nueva-instruccion menor como inicio
+        si junto-a-zumbador entonces inicio
+            coge-zumbador;
+            izqav;
+            si junto-a-zumbador entonces inicio
+                coge-zumbador;
+                izqav;   
+                si junto-a-zumbador entonces inicio
+                    coge-zumbador;
+                    izqav; 
+                    deja-zumbador;
+                    izqav;
+                    menor;
+                    repetir 3 veces inicio
+                        deja-zumbador;
+                        izqav;
+                    fin;
+                    izqav;                  
+
+                fin sino inicio
+                    gira(2);
+                    avanza;
+                    deja-zumbador;
+                    gira(3);
+                    avanza;
+                    deja-zumbador;
+                    gira(1);
+                fin;
+            fin sino inicio
+                gira(2);
+                avanza;
+                deja-zumbador;
+                gira(1); 
+            fin;
+        fin;     
+    fin;
+    
+    define-nueva-instruccion mayor(n) como inicio
+        si junto-a-zumbador entonces inicio
+            si no si-es-cero(n) entonces inicio
+                coge-zumbador;
+                mayor(precede(n));
+                deja-zumbador;
+            fin sino inicio
+                gira-izquierda;
+            fin;
+        fin;
+    fin;
+    
+
+    
+    define-nueva-instruccion busca(n) como inicio
+        si derecha-bloqueada entonces inicio
+            deja-zumbador;
+        fin sino inicio
+            gira(2);
+            si frente-bloqueado entonces inicio
+                deja-zumbador;
+                gira(2);
+            fin sino inicio
+                avanza;
+                si izquierda-bloqueada entonces inicio
+                    gira(2);
+                    avanza;
+                    deja-zumbador;
+                    
+                fin sino inicio
+                    menor;
+                    gira(2);
+                    avanza;
+                    deja-zumbador;
+                    mayor(n);
+                fin;
+            fin;
+        fin;
+    fin;
+    
+ 
+    define-nueva-instruccion limpia(n) como inicio
+        mientras no-orientado-al-este hacer gira-izquierda;
+        si frente-libre entonces inicio
+            avanza;
+            limpia(n)
+        fin sino inicio
+            gira(2);
+            mientras izquierda-bloqueada y frente-libre hacer inicio
+                avanza;
+                
+            fin;
+            si izquierda-libre entonces inicio
+                gira-izquierda;
+                avanza;
+                gira(3);
+                mientras frente-libre hacer avanza;
+                limpia(n)
+            fin sino inicio
+                mientras junto-a-zumbador hacer coge-zumbador;
+                repetir n veces repetir n veces deja-zumbador;
+             fin;
+        fin;
+     
+    fin;
+    
+    define-nueva-instruccion siguiente(n) como inicio
+        si frente-libre entonces inicio
+            avanza;
+            recorre(n);
+        fin sino inicio
+            gira(2);
+            mientras derecha-bloqueada y frente-libre hacer inicio
+                avanza;
+                
+            fin;
+            si derecha-libre entonces inicio
+                gira(3);
+                avanza;
+                gira-izquierda;
+                mientras frente-libre hacer avanza;
+                recorre(n);
+            fin sino inicio
+                limpia(n);
+             fin;
+        fin;
+    fin;
+
+    define-nueva-instruccion recorre(n) como inicio
+        mientras no-orientado-al-este hacer gira-izquierda;
+        busca(n);
+        si orientado-al-norte entonces inicio
+            gira(3);
+            siguiente(sucede(n));
+         fin sino inicio
+            siguiente(n);
+         fin;
+                
+    fin;
+    inicia-ejecucion
+        recorre(1);
+    termina-ejecucion
+finalizar-programa

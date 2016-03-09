@@ -1,0 +1,24 @@
+iniciar-programa
+    define-nueva-instruccion media-vuelta como repetir 2 veces gira-izquierda;
+    define-nueva-instruccion gira-derecha como repetir 3 veces gira-izquierda;
+    define-nueva-instruccion oeste como mientras no-orientado-al-oeste hacer gira-izquierda;
+
+    define-nueva-instruccion baja-piso como inicio
+        oeste;
+        mientras frente-libre hacer avanza;
+        media-vuelta;
+        mientras derecha-bloqueada hacer inicio
+            si frente-libre entonces avanza
+            sino apagate;
+        fin;
+        deja-zumbador;
+        gira-derecha;
+        avanza;
+    fin;
+
+    inicia-ejecucion
+        mientras algun-zumbador-en-la-mochila hacer
+            baja-piso;
+        apagate;
+    termina-ejecucion
+finalizar-programa

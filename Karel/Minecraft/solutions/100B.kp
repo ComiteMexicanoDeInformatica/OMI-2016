@@ -1,0 +1,101 @@
+iniciar-programa
+    define-nueva-instruccion girar(n) como inicio
+        repetir n veces inicio
+            gira-izquierda;
+        fin;
+    fin;
+    
+    define-nueva-instruccion hasta-pared como inicio
+        mientras frente-libre hacer inicio
+            avanza;
+        fin;
+    fin;
+    
+    define-nueva-instruccion volver-al-inicio como inicio
+        mientras no-orientado-al-oeste hacer inicio
+            gira-izquierda;
+        fin;
+        hasta-pared;
+        gira-izquierda;
+        hasta-pared;
+        gira-izquierda;
+    fin;
+    
+    define-nueva-instruccion dar-un-paso como inicio
+        si frente-libre entonces inicio
+            avanza;
+        fin sino inicio
+            gira-izquierda;
+            si frente-libre entonces inicio
+                avanza;
+                gira-izquierda;
+                hasta-pared;
+                girar(2);
+            fin;
+        fin;
+    fin;
+
+    define-nueva-instruccion seguir-instrucciones como inicio
+        si junto-a-zumbador entonces inicio
+            coge-zumbador;
+            si no-junto-a-zumbador entonces inicio
+                si frente-libre entonces inicio
+                    avanza;
+                fin;
+                seguir-instrucciones;
+                si frente-libre entonces inicio
+                    avanza;
+                fin;
+                deja-zumbador;
+                mientras no-orientado-al-norte hacer inicio
+                    gira-izquierda;
+                fin;
+            fin sino inicio
+                seguir-instrucciones;
+                gira-izquierda;
+            fin;
+        fin;
+    fin;
+    
+    define-nueva-instruccion recoger-todo como inicio
+        si orientado-al-este entonces inicio
+            si junto-a-zumbador entonces inicio
+                coge-zumbador;
+                recoger-todo;
+                deja-zumbador;
+            fin sino inicio
+                dar-un-paso;
+                recoger-todo;
+            fin;
+        fin sino inicio
+            volver-al-inicio;
+        fin;
+    fin;
+
+    inicia-ejecucion
+        volver-al-inicio;
+        mientras junto-a-zumbador y
+                 frente-libre hacer inicio
+            avanza;
+        fin;
+        girar(2);
+        si no-junto-a-zumbador y
+           frente-libre entonces inicio
+            avanza;
+        fin;
+        seguir-instrucciones;
+        si frente-libre entonces inicio
+            avanza;
+        fin;
+        volver-al-inicio;
+        
+        mientras orientado-al-este hacer inicio
+            si junto-a-zumbador entonces inicio
+                coge-zumbador;
+            fin;
+            dar-un-paso;
+        fin;
+        volver-al-inicio;
+        recoger-todo;
+    termina-ejecucion
+finalizar-programa

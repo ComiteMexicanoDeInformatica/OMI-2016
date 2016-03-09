@@ -1,0 +1,101 @@
+iniciar-programa
+    define-nueva-instruccion gira-derecha como repetir 3 veces gira-izquierda;
+    define-nueva-instruccion oeste como mientras no-orientado-al-oeste hacer gira-izquierda;
+
+    define-nueva-instruccion ve-a-esquina como inicio
+        oeste;
+        repetir 2 veces inicio
+            mientras frente-libre hacer avanza;
+            gira-izquierda;
+        fin;
+    fin;
+
+    define-nueva-instruccion super-avanza como inicio
+        si frente-libre entonces inicio
+            avanza;
+        fin
+        sino inicio
+            si orientado-al-este entonces inicio
+                gira-izquierda;
+                si frente-libre entonces inicio
+                    avanza;
+                    gira-izquierda;
+                fin;
+            fin
+            sino inicio
+                gira-derecha;
+                si frente-libre entonces inicio
+                    avanza;
+                    gira-derecha;
+                fin;
+            fin;
+        fin;
+    fin;
+
+    define-nueva-instruccion recoge-zumbadores(cuantos) como inicio
+        si no si-es-cero(cuantos) entonces inicio
+            si junto-a-zumbador entonces inicio
+                coge-zumbador;
+                recoge-zumbadores(precede(cuantos));
+            fin
+            sino inicio
+                deja-zumbador;
+            fin;
+        fin;
+    fin;
+
+    define-nueva-instruccion busca-cero como inicio
+        ve-a-esquina;
+        mientras junto-a-zumbador hacer super-avanza;
+        apagate;
+    fin;
+
+    define-nueva-instruccion busca-uno como inicio
+        ve-a-esquina;
+        mientras no-junto-a-zumbador hacer super-avanza;
+        apagate;
+    fin;
+
+    define-nueva-instruccion busca-impostor(valor) como inicio
+        mientras no-orientado-al-norte y no-orientado-al-sur hacer inicio
+            recoge-zumbadores(valor);
+            super-avanza;
+        fin;
+
+        ve-a-esquina;
+        si junto-a-zumbador entonces inicio
+            super-avanza;
+            si junto-a-zumbador entonces busca-cero
+            sino inicio
+                super-avanza;
+                si junto-a-zumbador entonces busca-cero
+                sino busca-uno;
+            fin;
+        fin
+        sino inicio
+            super-avanza;
+            si no-junto-a-zumbador entonces busca-uno
+            sino inicio
+                super-avanza;
+                si no-junto-a-zumbador entonces busca-uno
+                sino busca-cero;
+            fin;
+        fin;
+    fin;
+
+    define-nueva-instruccion cuenta-zumbadores(n) como inicio
+        si junto-a-zumbador entonces inicio
+            coge-zumbador;
+            cuenta-zumbadores(sucede(n));
+        fin
+        sino inicio
+            repetir n veces deja-zumbador;
+            busca-impostor(n);
+        fin;
+    fin;
+
+    inicia-ejecucion
+        ve-a-esquina;
+        cuenta-zumbadores(0);
+    termina-ejecucion
+finalizar-programa

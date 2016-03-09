@@ -1,0 +1,193 @@
+class program {
+
+	void turn(n)
+	{
+    	iterate(n)
+        {
+        	turnleft();
+        }
+    }
+    
+    void mult(n)
+    {
+    	if(nextToABeeper)
+        {
+        	pickbeeper();
+            mult(n);
+            put(n);
+        }
+	}
+    
+    void put(n)
+    {
+    	iterate(n)
+        {
+        	putbeeper();
+		}
+	}
+    
+    void pick(n)
+    {
+    	iterate(n)
+        {
+        	if(nextToABeeper && facingSouth)
+            {
+        		pickbeeper();
+            }
+            else
+            {
+            	if(facingSouth)
+                {
+            		turn(1);
+                }
+                putbeeper();
+            }
+		}
+        if(facingEast)
+        {
+        	turn(3);
+        	iterate(n)
+            {
+                if(nextToABeeper && facingSouth)
+                {
+                    pickbeeper();
+                }
+                else
+                {
+                    if(facingSouth)
+                    {
+                        turn(1);
+                    }
+                    putbeeper();
+                }
+            }
+        }
+	}
+
+	void stackpick(n)
+    {
+    	if(nextToABeeper && notFacingEast)
+        {
+        	while(notFacingSouth)
+            {
+            	turn(1);
+            }
+        	pick(100);
+            stackpick(succ(n));
+		}
+        else
+        {
+        	while(notFacingEast)
+            {
+            	turn(1);
+            }
+            if(frontIsClear)
+            {
+        		move();
+            }
+            else
+            {
+            	turnoff();
+            }
+        	stack(pred(n));
+        }
+	}
+    
+    void ifpick(n)
+	{
+    	if(notFacingNorth)
+        {
+        	turn(1);
+            ifpick(n);
+		}
+        else
+        {
+        	compare(n);
+        }
+    }
+    
+    void compare(n)
+    {
+    	iterate(n)
+        {
+        	if(facingNorth && nextToABeeper)
+            {
+            	pickbeeper();
+			}
+            else
+            {
+            	if(facingWest)
+                {
+                	putbeeper();
+				}
+                else
+                {
+                	turnleft();
+                }
+			}
+		}
+        if(notFacingWest)
+        {
+        	put(n);
+		}
+        else
+        {
+        	iterate(n)
+            {
+                if(facingWest && nextToABeeper)
+                {
+                	pickbeeper();
+                }
+                else
+                {
+ 	               if(facingSouth)
+    	            {
+        	        	putbeeper();
+            	    }
+                	else
+                	{
+                		turnleft();
+                	}
+                }
+            }
+            mult(100);
+            put(n);
+            while(notFacingSouth)
+            {
+            	turn(1);
+            }
+            stackpick(0);
+            stack(n);
+        }
+    }
+    
+    void stack(n)
+	{
+    	if(iszero(n))
+        {
+        	while(notFacingSouth)
+            {
+            	turn(1);
+            }
+        	stackpick(1);
+        }
+        else
+        {
+        	ifpick(n);
+        }
+    }
+    
+    program () 
+    {
+    	while(frontIsClear || frontIsBlocked)
+		{
+            while(notFacingEast)
+            {
+                turn(1);
+            }
+            mult(100);
+            stack(0);
+        }
+        turnoff();
+    }
+}

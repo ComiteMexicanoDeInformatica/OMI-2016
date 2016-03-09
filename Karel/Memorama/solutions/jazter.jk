@@ -1,0 +1,193 @@
+class program {
+	void turnBack(){
+    	turnleft();
+        turnleft();
+    }
+
+    void turnRight(){
+    	turnBack();
+        turnleft();
+    }
+    
+    void moveWhileFree(){
+    	while(frontIsClear()){
+        	move();
+        }
+    }
+    
+    void returnHome(){
+    	if (facingNorth()){
+        	turnleft();
+            moveWhileFree();
+            turnleft();
+            moveWhileFree();
+            turnleft();
+        }else if(facingSouth()){
+        	turnRight();
+            moveWhileFree();
+            turnBack();
+        }else if(facingWest()){
+        	moveWhileFree();
+            turnleft();
+            moveWhileFree();
+            turnleft();
+        }
+    }
+    
+	void pickCard(n){
+    	if (nextToABeeper()){
+            pickbeeper();
+            pickCard(succ(n));
+        }else{
+        	findCards();
+            turnleft();
+            iterate(n){
+            	putbeeper();
+                if (frontIsClear()){
+            		move();
+            	}
+            }
+            turnBack();
+            moveWhileFree();
+            turnleft();
+            if (frontIsClear()){
+            	move();
+            }
+        }
+        
+    }
+
+	void findCards(){
+    	if (notFacingEast()){
+        	if (nextToABeeper()){
+            	pickCard(0);
+                findCards();
+          	}else if (frontIsClear()){
+             	move();
+                findCards();
+          	}else if (frontIsBlocked() && facingNorth() && rightIsClear()){
+              	turnRight();
+              	move();
+              	turnRight();
+                findCards();
+        	}else if (frontIsBlocked() && facingSouth() && leftIsClear()){
+            	turnleft();
+            	move();
+            	turnleft();
+                findCards();
+        	}else{
+            	returnHome();
+            }
+		}
+        
+	}
+    
+    void goToTheTop(){
+    	turnRight();
+        while (nextToABeeper() && frontIsClear()){
+        	move();
+        }
+        if (nextToABeeper()){
+            turnleft();
+        }else{
+        	turnBack();
+            move();
+            turnRight();
+        }
+    }
+    
+    void pickPair(n){
+    	while(nextToABeeper()){
+        	pickbeeper();
+            if (frontIsClear()){
+        		move();
+            }
+        }
+        turnleft();
+        iterate(n){
+        	move();
+        }
+        move();
+        turnleft();
+        while(nextToABeeper()){
+        	pickbeeper();
+            if (frontIsClear()){
+        		move();
+            }
+        }
+        turnBack();
+        moveWhileFree();
+        turnRight();
+    }
+    
+    void searchPair(n){
+    	if (frontIsClear()){
+        	move();
+        }else{
+        	turnleft();
+            moveWhileFree();
+            turnoff();
+        }
+        if (nextToABeeper()){
+        	if (rightIsClear()){
+            	turnRight();
+                move();
+                if (nextToABeeper()){
+                	turnBack();
+                    move();
+                    turnRight();
+                    if (frontIsClear()){
+        				searchPair(succ(n));
+            		}else{
+            			turnleft();
+                        moveWhileFree();
+                		turnoff();
+            		}
+                }else{
+                	turnBack();
+                    move();
+                    pickPair(n);
+                }
+            }else{
+            	turnleft();
+                pickPair(n);
+            }
+        }else{
+        	if (frontIsClear()){
+        		searchPair(succ(n));
+            }else{
+            	turnleft();
+                moveWhileFree();
+                turnoff();
+            }
+        }
+    }
+    
+    void checkPairs(){
+    	if (frontIsBlocked() && notNextToABeeper()){
+        	turnRight();
+            turnoff();
+        }else{
+        	while (notNextToABeeper()){
+        		if (frontIsClear()){
+                	move();
+            	}else{
+                	turnRight();
+                	turnoff();
+            	}
+        	}
+            
+
+    		goToTheTop();
+        	searchPair(0);
+            checkPairs();
+        }
+    }
+
+    program () {
+        findCards();
+        turnBack();
+        checkPairs();
+        turnoff();
+    }
+}

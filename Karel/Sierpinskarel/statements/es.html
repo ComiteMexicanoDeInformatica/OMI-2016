@@ -1,0 +1,40 @@
+<h1>Historia</h1>
+
+<p>Karel se encuentra dentro de un mundo cuadrado, es decir, el ancho y el alto del mundo son iguales. Ayuda a Karel a pintar el mundo siguiendo las siguientes instrucciones:</p>
+
+<ul>
+<li><strong>Paso 1:</strong> Cuenta cuanto mide el cuadrado en el que te encuentras.</li>
+<li><strong>Paso 2:</strong> Divide el cuadrado en 3 filas y 3 columnas del mismo tamaño de modo que te queden 9 cuadrados. Si no se puede, apágate.</li>
+<li><strong>Paso 3:</strong> Rellena el cuadro del centro con montones de 1 zumbador.</li>
+<li><strong>Paso 4:</strong> Para los 8 cuadrados restantes realiza el mismo procedimiento.</li>
+</ul>
+
+<p>Debes dejar de pintar cuando el tamaño del cuadro no se pueda dividir en 3 filas y columnas iguales.</p>
+
+<h1>Problema</h1>
+
+<p>Escribe un programa que ayude a Karel a dibujar el mundo siguiendo las instrucciones.</p>
+
+<h1>Consideraciones</h1>
+
+<ul>
+<li>Karel tiene infinitos zumbadores en la mochila.</li>
+<li>El tamaño del mundo siempre será múltiplo de 3.</li>
+<li>El mundo inicial no tiene zumbadores en el piso.</li>
+<li>Karel inicia en la casilla (1, 1) viendo al norte.</li>
+<li>No importa la orientación ni la posición final de Karel.</li>
+</ul>
+
+<h1>Ejemplos</h1>
+
+<h3>Entrada</h3>
+
+<p><img src="/img/7e085f704bdb1db04cf8b480192488cfcf763723.png" alt="Ejemplo 18x18" /></p>
+
+<p>En este mundo de 18x18, Karel primero divide el mundo en 9 cuadros de 6x6 y rellena el del centro. Después, empieza el mismo procedimiento en los 8 cuadros de 6x6 restantes. En cada uno de ellos, divide el cuadro en 9 cuadros de 2x2, rellena el de en medio y se apaga, dado que los cuadros resultantes no pueden dividirse en 3 filas o 2 columnas.</p>
+
+<h3>Salida</h3>
+
+<p><img src="/img/062b969cd09b932ce4a3f9c1bd7893663774de3b.png" alt="Ejemplo 12x12" /></p>
+
+<p>En este mundo de 12x12 Karel hace 9 cuadros de 4x4 y rellena el del centro. En ese momento se apaga porque los cuadros de 4x4 no se pueden dividir en 9 cuadros iguales.</p>

@@ -1,0 +1,97 @@
+iniciar-programa
+    define-nueva-instruccion girar(n) como inicio
+        repetir n veces inicio
+            gira-izquierda;
+        fin;
+    fin;
+    
+    define-nueva-instruccion vuelta-y-regreso como inicio
+        girar(2);
+        mientras frente-libre hacer inicio
+            avanza;
+        fin;
+    fin;
+
+    define-nueva-instruccion dibujar-linea como inicio
+        mientras junto-a-zumbador hacer inicio
+            coge-zumbador;
+        fin;
+        mientras algun-zumbador-en-la-mochila hacer inicio
+            deja-zumbador;
+            si frente-libre entonces inicio
+                avanza;
+            fin;
+        fin;
+        vuelta-y-regreso;
+    fin;
+    
+    define-nueva-instruccion recoger-y-dejar como inicio
+        mientras frente-libre hacer inicio
+            si junto-a-zumbador entonces inicio
+                coge-zumbador;
+            fin;
+            avanza;
+        fin;
+        mientras algun-zumbador-en-la-mochila hacer inicio
+            deja-zumbador;
+        fin;
+    fin;
+
+    inicia-ejecucion
+        dibujar-linea;
+        gira-izquierda;
+        avanza;
+        gira-izquierda;
+        dibujar-linea;
+        girar(2);
+        mientras junto-a-zumbador hacer inicio
+            gira-izquierda;
+            avanza;
+            si junto-a-zumbador entonces inicio
+                coge-zumbador;
+            fin;
+            girar(2);
+            avanza;
+            si algun-zumbador-en-la-mochila entonces inicio
+                coge-zumbador;
+                avanza;
+                deja-zumbador;
+                deja-zumbador;
+                girar(2);
+                avanza;
+                girar(3);
+            fin sino inicio
+                gira-izquierda;
+            fin;
+            si frente-libre entonces inicio
+                avanza;
+            fin sino inicio
+                si junto-a-zumbador entonces inicio
+                    coge-zumbador;
+                fin;
+            fin;
+        fin;
+        girar(2);
+        recoger-y-dejar;
+        girar(3);
+        avanza;
+        gira-izquierda;
+        vuelta-y-regreso;
+        girar(2);
+        recoger-y-dejar;
+        gira-izquierda;
+        si no-junto-a-zumbador entonces inicio
+            avanza;
+            gira-izquierda;
+        fin;
+        mientras junto-a-zumbador hacer inicio
+            coge-zumbador;
+        fin;
+        avanza;
+        gira-izquierda;
+        avanza;
+        mientras algun-zumbador-en-la-mochila hacer inicio
+            deja-zumbador;
+        fin;
+    termina-ejecucion
+finalizar-programa

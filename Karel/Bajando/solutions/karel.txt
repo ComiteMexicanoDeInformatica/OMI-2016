@@ -1,0 +1,37 @@
+iniciar-programa
+	define-nueva-instruccion oeste como
+    	mientras no-orientado-al-oeste hacer
+        	gira-izquierda;
+
+	define-nueva-instruccion este como
+    	mientras no-orientado-al-este hacer
+        	gira-izquierda;
+            
+	define-nueva-instruccion principio como
+    inicio
+    	oeste;
+        mientras frente-libre hacer
+        	avanza;
+        este;
+    fin;
+    
+    define-nueva-instruccion baja como
+    inicio
+    	mientras derecha-bloqueada hacer
+        	avanza;
+        gira-izquierda;
+        gira-izquierda;
+        gira-izquierda;
+        avanza;
+        deja-zumbador;
+    fin;
+    
+	inicia-ejecucion
+        mientras algun-zumbador-en-la-mochila hacer
+        inicio
+        principio;
+        baja;
+        fin;
+        apagate;
+    termina-ejecucion
+finalizar-programa

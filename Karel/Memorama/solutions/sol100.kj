@@ -1,0 +1,166 @@
+class program
+{
+
+    void turn(n)
+    {
+        iterate(n)
+            turnleft();
+    }
+
+    void put(n)
+    {
+        iterate(n)
+            putbeeper();
+    }
+
+    void whileMove()
+    {
+        while(frontIsClear)
+            move();
+    }
+
+    void orient()
+    {
+        while(notFacingWest)
+            turn(1);
+        whileMove();
+        while(notFacingSouth)
+            turn(1);
+        whileMove();
+        turn(1);
+    }
+
+    void startSearch(n)
+    {
+        if(nextToABeeper)
+        {
+            pickbeeper();
+            startSearch(succ(n));
+        }
+        else
+        {
+            orient();
+            findPair(n);
+        }
+    }
+
+    void sameCheck(n)
+    {
+        iterate(n)
+        {
+            if(facingEast)
+            {
+                if(nextToABeeper)
+                {
+                    pickbeeper();
+                }
+                else
+                    turn(1);
+            }
+
+            if(notFacingEast)
+                putbeeper();
+        }
+
+        if(notNextToABeeper)
+        {
+            turn(2);
+            return();
+        }
+
+        if(facingEast)
+        {
+            put(n);
+        }
+        else
+        {
+            iterate(n)
+            {
+                if(facingNorth)
+                {
+                    if(nextToABeeper)
+                        pickbeeper();
+                    else
+                        turn(3);
+                }
+
+                if(notFacingNorth)
+                    putbeeper();
+            }
+        }
+
+    }
+
+    void findPair(n)
+    {
+        if(nextToABeeper)
+        {
+            sameCheck(n);
+            if(facingWest)
+                return();
+        }
+
+        if(frontIsClear)
+        {
+            move();
+            findPair(n);
+        }
+        else
+        {
+            turn(2);
+            whileMove();
+            turn(3);
+            if(frontIsClear)
+            {
+                move();
+                turn(3);
+                findPair(n);
+            }
+            else
+            {
+                turn(2);
+                turnoff();
+            }
+        }
+
+    }
+
+    void pickPairs()
+    {
+        if(nextToABeeper)
+        {
+            startSearch(0);
+            orient();
+            pickPairs();
+        }
+        else if(frontIsClear)
+        {
+            move();
+            pickPairs();
+        }
+        else
+        {
+            turn(2);
+            whileMove();
+            turn(3);
+            if(frontIsClear)
+            {
+                move();
+                turn(3);
+                pickPairs();
+            }
+            else
+            {
+                turn(2);
+                whileMove();
+                turn(2);
+            }
+        }
+    }
+
+    program ()
+    {
+        orient();
+        pickPairs();
+    }
+}
