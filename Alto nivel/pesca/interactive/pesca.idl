@@ -1,0 +1,17 @@
+interface Main {
+    int UsarApp(
+        int x1, int y1,
+        int x2, int y2
+    );
+    int TirarRed(
+        int x1, int y1,
+        int x2, int y2
+    );
+};
+
+interface pesca {
+    void Pescar(
+        int w, int h,
+        int n, int k
+    );
+};

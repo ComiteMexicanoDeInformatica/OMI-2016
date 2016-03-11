@@ -1,0 +1,7 @@
+interface Main {
+    int Preguntar(int a, int b);
+};
+
+interface fiesta {
+    int BusquedaCool(int n);
+};
